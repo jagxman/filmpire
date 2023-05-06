@@ -52,7 +52,7 @@ const Sidebar = (setMobileOpen) => {
       <List>
         <ListSubheader>Categories</ListSubheader>
         {categories.map(({label, value}) => (
-          <Link key={value} className={classes.links} to="/" Button>
+          <Link key={value} className={classes.links} to="/" button="true">
             <ListItem onClick={() =>{}}>
               {/* <ListItemIcon>
                 <img src={redLogo} className={classes.genreImages} height={30}></img>
@@ -68,7 +68,7 @@ const Sidebar = (setMobileOpen) => {
       <List>
         <ListSubheader>Genre</ListSubheader>
         {mockcategories.map(({label, value}) => (
-          <Link key={value} className={classes.links} to="/" Button>
+          <Link key={value} className={classes.links} to="/" button="true">
             <ListItem onClick={() =>{}}>
               {/* <ListItemIcon>
                 <img src={redLogo} className={classes.genreImages} height={30}></img>
