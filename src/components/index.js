@@ -6,3 +6,4 @@ export { default as Movies } from './Movies/Movies';
 export {default as Sidebar} from './Sidebar/Sidebar';
 export {default as Movielist} from './MovieList/Movielist';
 export {default as Movie} from './Movie/Movie';
+export {default as Search} from './Search/Search';
