@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   AppBar,
   IconButton,
@@ -19,6 +19,7 @@ import useStyles from "./styles";
 import { useTheme } from "@mui/styles";
 import {Sidebar, Search} from "..";
 import {fetchToken, moviesApi, createSessionID} from "../../utils";
+import { ColorModeContext } from "../../utils/ToggleColorMode";
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -32,6 +33,8 @@ const NavBar = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
 
+
+  const colorMode = useContext(ColorModeContext);
 
 
 
@@ -85,7 +88,7 @@ const NavBar = () => {
             </IconButton>
           )}
 
-          <IconButton color="inherit" sx={{ ml: 1 }} onClick={() => {}}>
+          <IconButton color="inherit" sx={{ ml: 1 }} onClick={colorMode.toggleColorMode}>
             {theme.palette.mode === "dark" ? <Brightness7 /> : <Brightness4 />}
           </IconButton>
           {!isMobile && <Search></Search>}

@@ -10,6 +10,8 @@ import useStyles from "./styles";
 function Search() {
   const classes = useStyles();
 
+  const location = useLocation();
+
   const [query, setQuery] = useState("");
   const dispatch = useDispatch();
   const handleKeyPress = (event) => {
@@ -19,6 +21,9 @@ function Search() {
     }
 
   };
+
+
+  if (location.pathname != '/') return null;
 
 
 

@@ -3,12 +3,12 @@ import {
   Box,
   CircularProgress,
   useMediaQuery,
-  Typography,
+  Typography
 } from "@mui/material";
 import { useSelector } from "react-redux";
 
 import { useGetMoviesQuery } from "../../services/TMDB";
-import { Movielist } from "..";
+import { Movielist, Pagination } from "..";
 import { selectGenreOrCategory } from "../../features/currentGenreorCategory";
 
 const Movies = () => {
@@ -17,6 +17,8 @@ const Movies = () => {
   const { genreIdOrCategoryName, searchQuery } = useSelector((state) => state.currentGenreOrCategory);
 
   const { data, error, isFetching } = useGetMoviesQuery({genreIdOrCategoryName, page, searchQuery});
+  const lg = useMediaQuery((theme) => theme.breakpoints.only("lg"));
+  const numberOfMovies = lg ? 16 : 18;
 
  
 
@@ -48,7 +50,8 @@ const Movies = () => {
 
   return (
     <div>
-      <Movielist movies={data} />
+      <Movielist movies={data} numberOfMovies={numberOfMovies} />
+      <Pagination currentPage={page} setPage={setPage} totalPage = {data.total_pages}></Pagination>
     </div>
   );
 };

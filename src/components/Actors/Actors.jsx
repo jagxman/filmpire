@@ -10,13 +10,13 @@ import {
   useGetMoviesByActorQuery,
 } from "../../services/TMDB";
 
-import { Movielist } from "..";
+import { Movielist, Pagination } from "..";
 
 const Actors = () => {
   const classes = useStyles();
   const { id } = useParams();
   const history = useHistory();
-  const page = 1;
+  const [page, setPage] = useState(1);
 
   const { data, isFetching, error } = useGetActorQuery(id);
   const { data: movieActors } = useGetMoviesByActorQuery({id, page});
@@ -106,6 +106,7 @@ const Actors = () => {
         ) : (
           <Box>Awkward... Nothing is here. </Box>
         )}
+        <Pagination currentPage={page} setPage={setPage} totalPage={movieActors?.total_pages}></Pagination>
 
 
       </Box>

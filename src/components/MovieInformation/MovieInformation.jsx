@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Modal,
   Typography,
@@ -15,7 +15,7 @@ import {
   Movie as MovieIcon,
   Theaters,
   Language,
-  plusOne,
+  PlusOne,
   Favorite,
   FavoriteBorder,
   Remove,
@@ -25,15 +25,20 @@ import {
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { useGetMovieQuery, useGetReccsQuery } from "../../services/TMDB";
+import { useGetMovieQuery, useGetReccsQuery, useGetListQuery } from "../../services/TMDB";
 import useStyles from "./styles";
 import genreIcons from "../../assets/genres";
 import { selectGenreOrCategory } from "../../features/currentGenreorCategory";
 import { Movielist } from "..";
+import { userSelector } from "../../features/auth";
 
 const MovieInformation = () => {
+
+  const { user } = useSelector(userSelector);
   const { id } = useParams();
   const { data, isFetching, error } = useGetMovieQuery(id);
+  const {data: favMovies} = useGetListQuery({listName: 'favorite/movies', accountID: user.id, sessionID: localStorage.getItem('session_id'), page: 1});
+  const {data: watchListMovies} = useGetListQuery({listName: 'watchlist/movies', accountID: user.id, sessionID: localStorage.getItem('session_id'), page: 1});
   const { data: reccs, isFetching: isreccs } = useGetReccsQuery({
     list: "/recommendations",
     movie_id: id,
@@ -42,12 +47,51 @@ const MovieInformation = () => {
 
   const [open, setOpen] = useState(false);
 
-  const isMovieFav = true;
-  const isMovieWatched = true;
 
-  const add2Favs = () => {};
 
-  const add2WatchList = () => {};
+  const [isMovieFav, setMovieFav] = useState(false);
+  const [isMovieWatched, setMovieWatched] = useState(false);
+
+
+  useEffect(() => {
+    setMovieFav(!!favMovies?.results?.find((movie) => movie?.id == data?.id));
+
+  }, [favMovies, data])
+
+
+  useEffect(() => {
+    setMovieWatched(!!watchListMovies?.results?.find((movie) => movie?.id == data?.id))
+
+  }, [watchListMovies, data])
+
+  const add2Favs = async () => {
+      await axios.post(`https://api.themoviedb.org/3/account/${user.id}/favorite?api_key=${process.env.REACT_APP_TMDB_KEY}&session_id=${localStorage.getItem('session_id')}`, {
+        media_type: 'movie',
+        media_id: id,
+        favorite: !isMovieFav, 
+
+      });
+
+      setMovieFav((prev) => !prev );
+
+  };
+
+  const add2WatchList = async () => {
+
+
+    await axios.post(`https://api.themoviedb.org/3/account/${user.id}/watchlist?api_key=${process.env.REACT_APP_TMDB_KEY}&session_id=${localStorage.getItem('session_id')}`, {
+        media_type: 'movie',
+        media_id: id,
+        watchlist: !isMovieWatched, 
+
+      });
+
+      setMovieWatched( (prev) => !prev );
+
+
+
+
+  };
 
   const classes = useStyles();
 
@@ -89,7 +133,7 @@ const MovieInformation = () => {
 
         <Grid item className={classes.containerSpaceAround}>
           <Box display="flex" align="center">
-            <Rating readOnly value={data.vote_average / 2}></Rating>
+            <Rating readOnly value={data?.vote_average / 2}></Rating>
             <Typography
               variant="subtitle1"
               gutterBottom
@@ -100,10 +144,7 @@ const MovieInformation = () => {
           </Box>
 
           <Typography variant="h6" align="center" gutterBottom>
-            {data?.runtime}min{" "}
-            {data?.spoken_languages.length > 0
-              ? `/ ${data?.spoken_languages[0].name} `
-              : ""}
+            {data?.runtime}min | Language: {data?.spoken_languages[0].name}
           </Typography>
         </Grid>
 
@@ -210,7 +251,7 @@ const MovieInformation = () => {
                 </Button>
                 <Button
                   onClick={add2WatchList}
-                  endIcon={isMovieWatched ? <Remove /> : <plusOne />}
+                  endIcon={isMovieWatched ? <Remove /> : <PlusOne/>}
                 >
                   Watchlist
                 </Button>
@@ -258,7 +299,7 @@ const MovieInformation = () => {
             className={classes.video}
             frameBorder="0"
             title="Trailer"
-            src={`https://www.youtube.com/embed/${data.videos.results[0].key}`}
+            src={`https://www.youtube.com/embed/${data?.videos?.results[0]?.key}`}
             allow = "autoplay"
           />
         )}

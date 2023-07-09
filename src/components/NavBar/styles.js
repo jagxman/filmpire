@@ -8,20 +8,21 @@ export default makeStyles((theme) => ({
     display: "flex",
     justifyContent: "space-between",
     marginLeft: "240px",
-    [theme.breakpoints.down("sm")]: {
-      marginleft: '0',
+    [theme.breakpoints.down('sm')]: {
+      marginLeft: '0',
       flexWrap: "wrap",
     },
   },
   menuButton: {
     marginRight: theme.spacing(2),
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up('sm')]: {
       display: "none",
-      marginRight: theme.spacing(2),
     },
   },
+
   drawer: {
     [theme.breakpoints.up("sm")]: {
+      marginLeft: theme.spacing(2),
       width: drawerWidth,
       flexShrink: 0,
   },
@@ -32,8 +33,6 @@ drawerPaper: {
 },
 
 linkButton: {
-  
-
   '&:hover' : {
     color: 'white !important',
     textDecoration: 'none',
