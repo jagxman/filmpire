@@ -144,7 +144,7 @@ const MovieInformation = () => {
           </Box>
 
           <Typography variant="h6" align="center" gutterBottom>
-            {data?.runtime}min | Language: {data?.spoken_languages[0].name}
+            {data?.runtime}min | Language: {data?.spoken_languages[0]?.name}
           </Typography>
         </Grid>
 
@@ -293,15 +293,17 @@ const MovieInformation = () => {
         open={open}
         onClose={() => setOpen(false)}
       >
-        {data?.videos?.results.length > 0 && (
-          <iframe
-            autoPlay
-            className={classes.video}
-            frameBorder="0"
-            title="Trailer"
-            src={`https://www.youtube.com/embed/${data?.videos?.results[0]?.key}`}
-            allow = "autoplay"
-          />
+        {data?.videos?.results?.length > 0 ? (
+    <iframe
+      autoPlay
+      className={classes.video}
+      frameBorder="0"
+      title="Trailer"
+      src={`https://www.youtube.com/embed/${data?.videos?.results[0]?.key}`}
+      allow="autoplay"
+    />
+  ) : (
+    <div>No videos available.</div>
         )}
       </Modal>
     </Grid>
