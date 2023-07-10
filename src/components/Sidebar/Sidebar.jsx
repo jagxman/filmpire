@@ -24,12 +24,18 @@ const categories = [
 ];
 
 
-const Sidebar = (setMobileOpen) => {
+const Sidebar = ({setMobileOpen}) => {
   const { data, isFetching } = useGetGenresQuery();
   const theme = useTheme();
   const classes = useStyles();
 
   const { genreIdOrCategoryName } = useSelector((state) => state.currentGenreOrCategory);
+
+
+  useEffect( () => {
+    setMobileOpen(false);
+
+  }, [genreIdOrCategoryName]);
 
   const dispatch = useDispatch();
 
