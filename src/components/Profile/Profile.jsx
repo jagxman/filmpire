@@ -38,8 +38,8 @@ const Profile = () => {
       {!favMovies?.results?.length && watchListMovies?.results?.length
       ? <Typography variant='h5'> Add Fav or watchlist some movies to see them here!</Typography>
       : <Box>
-         <RatedCards title="Favourite Movies" data={favMovies} />
-         <RatedCards title="Watchlist" data={watchListMovies} />
+         <RatedCards title="Favourite Movies:" data={favMovies} />
+         <RatedCards title="Watchlist:" data={watchListMovies} />
          </Box>
       }
     </Box>

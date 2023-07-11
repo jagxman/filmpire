@@ -66,9 +66,6 @@ const NavBar = () => {
 
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  console.log(user);
-
-
 
 
   return (
