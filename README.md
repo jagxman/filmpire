@@ -2,7 +2,8 @@
 
 Filmpire is a movie web application where users can browse, favourite, and watchlist movies.
 
-![image](https://github.com/jagxman/filmpire/assets/33289432/2ec128cb-738f-48b2-99e3-5d0653d2b9ee)
+![image](https://github.com/jagxman/filmpire/assets/33289432/ba00f3cb-b864-46d9-9c54-178c4c27aa04)
+
 
 
 ## Features
